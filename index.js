@@ -58,6 +58,10 @@ app.post("/continuewriting", async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  return res.send("this is get for checking");
+});
+
 const port = process.env.PORT || 3001;
 
 app.listen(port, () => {
