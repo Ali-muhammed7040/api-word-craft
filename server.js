@@ -60,10 +60,24 @@ app.post("/continuewriting", async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  return res.status(200).json({
-    success: true,
-  });
+app.get("/demo", (req, res) => {
+  res.json([
+    {
+      id: "001",
+      name: "Smith",
+      email: "smith@gmail.com",
+    },
+    {
+      id: "002",
+      name: "Sam",
+      email: "sam@gmail.com",
+    },
+    {
+      id: "003",
+      name: "lily",
+      email: "lily@gmail.com",
+    },
+  ]);
 });
 
 const HTTP_PORT = process.env.PORT || 3001;
