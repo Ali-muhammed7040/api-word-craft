@@ -8,7 +8,9 @@ const openai = new OPENAI();
 const app = express();
 
 app.use(express.json(), cors());
-
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
 app.post("/paraphrasing", async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -64,8 +66,8 @@ app.get("/", (req, res) => {
   });
 });
 
-const port = process.env.PORT || 3001;
+const HTTP_PORT = process.env.PORT || 3001;
 
-app.listen(port, () => {
-  console.log(`Sever listening on port ${port}`);
+app.listen(HTTP_PORT, () => {
+  console.log(`Sever listening on port ${HTTP_PORT}`);
 });
