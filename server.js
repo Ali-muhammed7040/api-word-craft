@@ -17,13 +17,14 @@ app.post("/paraphrasing", async (req, res) => {
     console.log(prompt);
     const response = await openai.completions.create({
       model: "gpt-3.5-turbo-instruct",
-      prompt: `Paraphrase the following text:"${prompt}"`,
+      prompt: `Give suggestion for rephrased:"${prompt}"`,
       max_tokens: 64,
       temperature: 0,
+      n: 3,
     });
     return res.status(200).json({
       success: true,
-      data: response.choices[0].text,
+      data: response.choices,
     });
   } catch (error) {
     return res.status(400).json({
