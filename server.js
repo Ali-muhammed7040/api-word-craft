@@ -2,6 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const OPENAI = require("openai").OpenAI;
 const cors = require("cors");
+const mongoose = require('mongoose')
+const NewBook = require('./Model/newbook')
+
+
+mongoose.connect('mongodb://localhost:27017/AI-Editor')
+
+ 
 
 const openai = new OPENAI();
 
@@ -81,8 +88,31 @@ app.get("/demo", (req, res) => {
   ]);
 });
 
+app.post('/newbook',async(req,res)=>{
+  const { title, author, project } = req.body;
+  try {
+    const response = await NewBook.create({ title, author, project });
+    console.log(response);
+    res.json({ status: 'ok', response });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 'error', error: error.message });
+  }
+})
+
+app.get('/newbook', async (req, res) => {
+  try {
+    const books = await NewBook.find({});
+    res.json({ status: 'ok', books });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 'error', error: error.message });
+  }
+});
+
+
 const HTTP_PORT = process.env.PORT || 3001;
 
 app.listen(HTTP_PORT, () => {
-  console.log(`Sever listening on port ${HTTP_PORT}`);
+  console.log(`Sever listening on port http://localhost:${HTTP_PORT}`);
 });
