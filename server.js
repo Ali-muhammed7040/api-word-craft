@@ -2,13 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const OPENAI = require("openai").OpenAI;
 const cors = require("cors");
-const mongoose = require('mongoose')
-const NewBook = require('./Model/newbook')
+const mongoose = require("mongoose");
+const NewBook = require("./Model/newbook");
 
-
-mongoose.connect('mongodb://localhost:27017/AI-Editor')
-
- 
+mongoose.connect("mongodb://localhost:27017/AI-Editor");
 
 const openai = new OPENAI();
 
@@ -88,57 +85,50 @@ app.get("/demo", (req, res) => {
   ]);
 });
 
-app.post('/createnewbook',async(req,res)=>{
+app.post("/createnewbook", async (req, res) => {
   const { title, author, project } = req.body;
   try {
     const response = await NewBook.create({ title, author, project });
     console.log(response);
-    res.json({ status: 'true', response });
+    res.json({ status: "true", response });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ status: 'error', error: error.message });
+    res.status(500).json({ status: "error", error: error.message });
   }
-})
+});
 
-
-app.post('/addchapter', async (req, res) => {
+app.post("/addchapter", async (req, res) => {
   const { project, text, name, subtitle } = req.body;
-  console.log(project, text, name, subtitle,'1111')
+  console.log(project, text, name, subtitle, "1111");
 
   try {
+    const response = await NewBook.findOneAndUpdate(
+      { project },
+      { $push: { chapter: { text, name, subtitle } } },
+      { new: true }
+    );
+    console.log(response);
 
-    const response = await NewBook.findOneAndUpdate({project},{chapter:[{ text, name, subtitle}]},{new:true})
-    console.log(response)
-    
     if (response) {
-      res.json({ status: 'true', response });
+      res.json({ status: "true", response });
     } else {
-      res.status(404).json({ status: 'error', error: 'Document not found' });
+      res.status(404).json({ status: "error", error: "Document not found" });
     }
   } catch (error) {
-    console.error('err', error);
-    res.status(500).json({ status: 'error', error: error.message });
+    console.error("err", error);
+    res.status(500).json({ status: "error", error: error.message });
   }
 });
 
-
-
-
-
-
-
-
-
-app.get('/getbooks', async (req, res) => {
+app.get("/getbooks", async (req, res) => {
   try {
     const books = await NewBook.find({});
-    res.json({ status: 'true', books });
+    res.json({ status: "true", books });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ status: 'error', error: error.message });
+    res.status(500).json({ status: "error", error: error.message });
   }
 });
-
 
 const HTTP_PORT = process.env.PORT || 3001;
 
