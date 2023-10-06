@@ -88,22 +88,51 @@ app.get("/demo", (req, res) => {
   ]);
 });
 
-app.post('/newbook',async(req,res)=>{
+app.post('/createnewbook',async(req,res)=>{
   const { title, author, project } = req.body;
   try {
     const response = await NewBook.create({ title, author, project });
     console.log(response);
-    res.json({ status: 'ok', response });
+    res.json({ status: 'true', response });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: 'error', error: error.message });
   }
 })
 
-app.get('/newbook', async (req, res) => {
+
+app.post('/addchapter', async (req, res) => {
+  const { project, text, name, subtitle } = req.body;
+  console.log(project, text, name, subtitle,'1111')
+
+  try {
+
+    const response = await NewBook.findOneAndUpdate({project},{chapter:[{ text, name, subtitle}]},{new:true})
+    console.log(response)
+    
+    if (response) {
+      res.json({ status: 'true', response });
+    } else {
+      res.status(404).json({ status: 'error', error: 'Document not found' });
+    }
+  } catch (error) {
+    console.error('err', error);
+    res.status(500).json({ status: 'error', error: error.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+app.get('/getbooks', async (req, res) => {
   try {
     const books = await NewBook.find({});
-    res.json({ status: 'ok', books });
+    res.json({ status: 'true', books });
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: 'error', error: error.message });

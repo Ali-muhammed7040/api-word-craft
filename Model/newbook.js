@@ -7,7 +7,9 @@ const NewBookSchema = new mongoose.Schema({
     date : {
         type: Number,
         default: Date.now
-    }
+    },
+    chapter:[]
+   
 })
 const model = mongoose.model('NewBookModel',NewBookSchema)
 
