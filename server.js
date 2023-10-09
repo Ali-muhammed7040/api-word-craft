@@ -99,7 +99,6 @@ app.post("/createnewbook", async (req, res) => {
 
 app.post("/addchapter", async (req, res) => {
   const { project, text, name, subtitle } = req.body;
-  console.log(project, text, name, subtitle, "1111");
 
   try {
     const response = await NewBook.findOneAndUpdate(
@@ -120,8 +119,15 @@ app.post("/addchapter", async (req, res) => {
   }
 });
 
-app.get("/getbooks", async (req, res) => {
+app.get("/books/:id?", async (req, res) => {
   try {
+    const { id } = req.params;
+    if (id) {
+      const books = await NewBook.findById(id);
+      res.json({ status: true, books });
+      console.log(books, "by id");
+      return;
+    }
     const books = await NewBook.find({});
     res.json({ status: "true", books });
   } catch (error) {
