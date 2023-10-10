@@ -5,13 +5,36 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const NewBook = require("./Model/newbook");
 
-mongoose.connect("mongodb://localhost:27017/AI-Editor");
+// mongoose.set("strictQuery", false);
+
+// mongoose.connect("mongodb://localhost:27017/AI-Editor");
+
+const connectDb = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (err) {
+    console.log(err, "mongo Err");
+    process.exit(1);
+  }
+};
 
 const openai = new OPENAI();
 
 const app = express();
 
 app.use(express.json(), cors());
+
+const HTTP_PORT = process.env.PORT || 3001;
+
+connectDb()
+  .then(() => {
+    app.listen(HTTP_PORT, () => {
+      console.log(`Sever listening on port http://localhost:${HTTP_PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));
+
 app.get("/", (req, res) => {
   res.send("hello world");
 });
@@ -135,10 +158,4 @@ app.get("/books/:id?", async (req, res) => {
     console.error(error);
     res.status(500).json({ status: "error", error: error.message });
   }
-});
-
-const HTTP_PORT = process.env.PORT || 3001;
-
-app.listen(HTTP_PORT, () => {
-  console.log(`Sever listening on port http://localhost:${HTTP_PORT}`);
 });
