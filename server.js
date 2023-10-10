@@ -22,8 +22,8 @@ app.post("/paraphrasing", async (req, res) => {
     const response = await openai.completions.create({
       model: "gpt-3.5-turbo-instruct",
       prompt: `Give me best suggested paragraph and paraphrase it:"${prompt}"`,
-      max_tokens: 1000,
-      temperature: 1.5,
+      max_tokens: 700,
+      temperature: 1.2,
       n: 3,
     });
     return res.status(200).json({
