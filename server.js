@@ -21,9 +21,9 @@ app.post("/paraphrasing", async (req, res) => {
     console.log(prompt);
     const response = await openai.completions.create({
       model: "gpt-3.5-turbo-instruct",
-      prompt: `Give suggestion for rephrased:"${prompt}"`,
-      max_tokens: 64,
-      temperature: 0,
+      prompt: `Give me best suggested paragraph:"${prompt}"`,
+      max_tokens: 1000,
+      temperature: 1.5,
       n: 3,
     });
     return res.status(200).json({
@@ -46,8 +46,8 @@ app.post("/continuewriting", async (req, res) => {
     console.log(prompt, "working with contine");
     const response = await openai.completions.create({
       model: "gpt-3.5-turbo-instruct",
-      prompt: `${prompt}continue writing`,
-      max_tokens: 100,
+      prompt: `${prompt}continue writing provide me atleast two paragraph `,
+      max_tokens: 1000,
     });
 
     console.log(response.choices[0].text);
