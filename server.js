@@ -87,6 +87,7 @@ app.get("/demo", (req, res) => {
 
 app.post("/createnewbook", async (req, res) => {
   const { title, author, project } = req.body;
+
   try {
     const response = await NewBook.create({ title, author, project });
     console.log(response);
@@ -98,11 +99,11 @@ app.post("/createnewbook", async (req, res) => {
 });
 
 app.post("/addchapter", async (req, res) => {
-  const { project, text, name, subtitle } = req.body;
+  const { _id, text, name, subtitle } = req.body;
 
   try {
-    const response = await NewBook.findOneAndUpdate(
-      { project },
+    const response = await NewBook.findByIdAndUpdate(
+      { _id },
       { $push: { chapter: { text, name, subtitle } } },
       { new: true }
     );
