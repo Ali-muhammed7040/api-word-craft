@@ -5,7 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const NewBook = require("./Model/newbook");
 
-// mongoose.set("strictQuery", false);
+mongoose.set("strictQuery", false);
 
 // mongoose.connect("mongodb://localhost:27017/AI-Editor");
 
