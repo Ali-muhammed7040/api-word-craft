@@ -98,6 +98,33 @@ app.post("/createnewbook", async (req, res) => {
   }
 });
 
+
+
+
+app.post("/copyright", async (req, res) => {
+  const { _id, year, penName } = req.body;
+  try {
+    const response = await NewBook.findOneAndUpdate(
+      { _id },
+      { $push: { copyright: { year, penName } } },
+      { new: true }
+    )
+    if (response) {
+      res.json({ status: "true", response });
+    } else {
+      res.status(404).json({ status: "error", error: "Document not found" });
+    }
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+)
+
+
+
+
+
 app.post("/addchapter", async (req, res) => {
   const { _id, text, name, subtitle } = req.body;
 
