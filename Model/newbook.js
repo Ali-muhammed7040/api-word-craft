@@ -9,7 +9,18 @@ const NewBookSchema = new mongoose.Schema({
         type: Number,
         default: Date.now
     },
-    chapter:[]
+    chapters: [
+        {
+          chaptername: String,
+          chapterbody: String,
+          subchapters: [
+            {
+              subchaptertitle: String,
+              subchapterbody: String,
+            }
+          ]
+        }
+      ]
    
 })
 const model = mongoose.model('NewBookModel',NewBookSchema)

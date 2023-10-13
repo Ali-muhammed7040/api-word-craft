@@ -122,22 +122,31 @@ app.post("/copyright", async (req, res) => {
 )
 
 
-
-
-
 app.post("/addchapter", async (req, res) => {
-  const { _id, text, name, subtitle } = req.body;
+  const { _id, chaptername, chapterbody, subchaptertitle, subchapterbody } = req.body;
 
   try {
-    const response = await NewBook.findByIdAndUpdate(
-      { _id },
-      { $push: { chapter: { text, name, subtitle } } },
-      { new: true }
-    );
-    console.log(response);
+    const existingBook = await NewBook.findById(_id);
 
-    if (response) {
-      res.json({ status: "true", response });
+    if (existingBook) {
+      const chapterExists = existingBook.chapters.some(
+        (chapter) =>
+          chapter.chaptername === chaptername && chapter.chapterbody === chapterbody
+      );
+
+      if (!chapterExists) {
+        existingBook.chapters.push({
+          chaptername,
+          chapterbody,
+          subchapters: [{ subchaptertitle, subchapterbody }],
+        });
+
+        const response = await existingBook.save();
+
+        res.json({ status: "true", response });
+      } else {
+        res.json({ status: "false", error: "Chapter with the same title and body already exists" });
+      }
     } else {
       res.status(404).json({ status: "error", error: "Document not found" });
     }
@@ -146,6 +155,9 @@ app.post("/addchapter", async (req, res) => {
     res.status(500).json({ status: "error", error: error.message });
   }
 });
+
+
+
 
 app.get("/books/:id?", async (req, res) => {
   try {
