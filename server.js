@@ -156,7 +156,17 @@ app.post("/addchapter", async (req, res) => {
   }
 });
 
-
+app.get('/getchapters/:id?',async(req,res)=>{
+  const userId = req.query.id;
+  console.log(userId,'id')
+  try {
+    const response = await NewBook.findOne({ "_id": userId }, { "chapters": 1 })
+    res.json({ status: "true", response });
+  } catch (error) {
+    console.log(error)
+  }
+  // res.send
+})
 
 
 app.get("/books/:id?", async (req, res) => {
