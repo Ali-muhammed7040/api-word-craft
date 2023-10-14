@@ -99,7 +99,7 @@ app.post("/createnewbook", async (req, res) => {
 });
 
 
-
+// Copy RIght Api
 
 app.post("/copyright", async (req, res) => {
   const { _id, year, penName } = req.body;
@@ -117,10 +117,13 @@ app.post("/copyright", async (req, res) => {
   }
   catch (error) {
     console.error(error);
+    res.status(500).json({ status: "error", error: error.message });
   }
 }
 )
 
+
+// Add Chapters And SubChapter
 
 app.post("/addchapter", async (req, res) => {
   const { _id, chaptername, chapterbody, subchaptertitle, subchapterbody } = req.body;
@@ -156,16 +159,20 @@ app.post("/addchapter", async (req, res) => {
   }
 });
 
+
+// Get Chapters array with subChapters
+
 app.get('/getchapters/:id?',async(req,res)=>{
   const userId = req.query.id;
-  console.log(userId,'id')
+
   try {
     const response = await NewBook.findOne({ "_id": userId }, { "chapters": 1 })
-    res.json({ status: "true", response });
+     res.json({ status: "true", response });
   } catch (error) {
-    console.log(error)
+    console.error("err", error);
+    res.status(500).json({ status: "error", error: error.message });
   }
-  // res.send
+
 })
 
 
