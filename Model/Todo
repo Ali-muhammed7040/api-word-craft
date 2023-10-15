@@ -1,0 +1,104 @@
+// User
+
+// 1) signUp
+
+// 2) Login
+
+
+// Done
+// 3) Create Book WithDate
+// {
+//     Title,
+//     Author,
+//     Project 
+// }
+
+
+// 4) CopyRight
+
+// {
+//     YearOfFirstPublication,
+//     PenName
+// }
+
+// 5) Content
+
+// {
+//     ReadAllChapterNames
+// }
+
+// Chapter Name and subChapters
+
+// {
+//     ChapterName: 'chapter 1',
+//     SubChapter: [
+//         scene1,
+//         scene2,
+//     ]
+// }
+
+
+
+
+// {
+//     id: '01',
+//     Title : 'God Father',
+//     Author : 'Mario Puzo',
+//     Project: 'Novel' ,
+//     copyRight:{
+//         year: 2023,
+//         penName: 'Robert Eliot',
+//         chapter: [
+//             chapterOne: [
+//                 ChapterName,
+//                 SubChapter:{
+//                     text1,
+//                     text2
+//                 }
+//             ],
+//             chapterTwo: [
+//                 ChapterName,
+//                 SubChapter:{
+//                     text1,
+//                     text2
+//                 }
+//             ]
+//         ]
+//     }
+
+// }
+
+// {
+//     "id": "01",
+//     "Title": "God Father",
+//     "Author": "Mario Puzo",
+//     "Project": "Novel",
+//     "copyRight": {
+//         "year": 2023,
+//         "penName": "Robert Eliot"
+//     },
+//     "chapters": [
+//         {
+//             "name": "Chapter One",
+//             "subChapters": [
+//                 {
+//                     "text1": "Some text here",
+//                     "text2": "Some more text"
+//                 }
+//             ]
+//         },
+//         {
+//             "name": "Chapter Two",
+//             "subChapters": [
+//                 {
+//                     "text1": "Text in Chapter Two",
+//                     "text2": "More text in Chapter Two"
+//                 }
+//             ]
+//         }
+//     ]
+// }
+
+
+
+
