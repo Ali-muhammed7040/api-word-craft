@@ -99,15 +99,36 @@ app.post("/createnewbook", async (req, res) => {
 });
 
 app.post("/addchapter", async (req, res) => {
-  const { _id, text, name, subtitle } = req.body;
+  const { _id, title, body } = req.body;
 
   try {
     const response = await NewBook.findByIdAndUpdate(
       { _id },
-      { $push: { chapter: { text, name, subtitle } } },
+      { $push: { chapter: { title, body } } },
       { new: true }
     );
-    console.log(response);
+    // console.log(response);
+
+    if (response) {
+      res.json({ status: "true", response });
+    } else {
+      res.status(404).json({ status: "error", error: "Document not found" });
+    }
+  } catch (error) {
+    console.error("err", error);
+    res.status(500).json({ status: "error", error: error.message });
+  }
+});
+app.post("/addsubchapter", async (req, res) => {
+  const { _id, title, body, chapterId } = req.body;
+
+  try {
+    const response = await NewBook.updateOne(
+      { _id, "chapter._id": chapterId },
+      { $push: { "chapter.$.subchapter": { title, body } } },
+      { new: true }
+    );
+    // console.log(response);
 
     if (response) {
       res.json({ status: "true", response });
