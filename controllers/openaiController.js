@@ -11,7 +11,7 @@ exports.paraphrasing = async (req, res) => {
       prompt: `Give me best suggested paragraph and paraphrase it:"${prompt}"`,
       max_tokens: 1000,
       temperature: 1.5,
-      n: 3,
+      n: 1,
     });
     return res.status(200).json({
       success: true,
@@ -120,10 +120,11 @@ exports.actions = async (req, res) => {
           data: response.choices[0].text,
         });
       } else {
+        console.log("working");
         const response = await openai.completions.create({
           model: "gpt-3.5-turbo-instruct",
           prompt: `${prompt}:${action}`,
-          max_tokens: 100,
+          max_tokens: 50,
           n: 1,
         });
       }
