@@ -124,7 +124,7 @@ exports.actions = async (req, res) => {
         const response = await openai.completions.create({
           model: "gpt-3.5-turbo-instruct",
           prompt: `${prompt}:${action}`,
-          max_tokens: 50,
+          max_tokens: 100,
           n: 1,
         });
         return res.status(200).json({
