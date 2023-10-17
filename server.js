@@ -98,7 +98,6 @@
 //   }
 // });
 
-
 // // Copy RIght Api
 
 // app.post("/copyright", async (req, res) => {
@@ -121,7 +120,6 @@
 //   }
 // }
 // )
-
 
 // // Add Chapters And SubChapter
 
@@ -159,7 +157,6 @@
 //   }
 // });
 
-
 // // Get Chapters array with subChapters
 
 // app.get('/getchapters/:id?',async(req,res)=>{
@@ -174,7 +171,6 @@
 //   }
 
 // })
-
 
 // app.get("/books/:id?", async (req, res) => {
 //   try {
@@ -199,33 +195,33 @@
 //   console.log(`Sever listening on port http://localhost:${HTTP_PORT}`);
 // });
 
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const openaiController = require("./controllers/openaiController");
+const newbookController = require("./controllers/newbookController");
 
-
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const openaiController = require('./controllers/openaiController');
-const newbookController = require('./controllers/newbookController');
-
-mongoose.connect('mongodb://localhost:27017/AI-Editor');
+mongoose.connect("mongodb://localhost:27017/AI-Editor");
 const app = express();
 
 app.use(express.json(), cors());
 
-app.get('/', (req, res) => {
-  res.send('hello world');
+app.get("/", (req, res) => {
+  res.send("hello world");
 });
 
-app.post('/paraphrasing', openaiController.paraphrasing);
-app.post('/continuewriting', openaiController.continueWriting);
+app.post("/paraphrasing", openaiController.paraphrasing);
+app.post("/continuewriting", openaiController.continueWriting);
 
-app.post('/createnewbook', newbookController.createNewBook);
-app.post('/copyright', newbookController.copyRight);
-app.post('/addchapter', newbookController.addChapter);
-app.get('/getchapters/:id?', newbookController.getChapters);
-app.get('/books/:id?', newbookController.getBookById);
-
+app.post("/createnewbook", newbookController.createNewBook);
+app.post("/copyright", newbookController.copyRight);
+app.post("/addchapter", newbookController.addChapter);
+app.get("/getchapters/:id?", newbookController.getChapters);
+app.get("/books/:id?", newbookController.getBookById);
+app.post("/poetry", openaiController.poetry);
+app.post("/quotation", openaiController.quotation);
+app.post("/action", openaiController.actions);
 // Other routes and controllers
 
 const HTTP_PORT = process.env.PORT || 3001;
