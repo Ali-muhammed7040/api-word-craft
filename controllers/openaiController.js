@@ -105,13 +105,29 @@ exports.actions = async (req, res) => {
     // const newLine = Number(lines);
     // console.log(typeof newLine, action);
     console.log(prompt, action);
+
     if (prompt && action) {
-      const response = await openai.completions.create({
-        model: "gpt-3.5-turbo-instruct",
-        prompt: `${prompt}:${action}`,
-        max_tokens: 100,
-        n: 1,
-      });
+      if (action === "Add a 500 lines of Repharsing") {
+        console.log("yaha tha");
+        const response = await openai.completions.create({
+          model: "gpt-3.5-turbo-instruct",
+          prompt: `${prompt}:${action}`,
+          max_tokens: 1000,
+          n: 1,
+        });
+        return res.status(200).json({
+          success: true,
+          data: response.choices[0].text,
+        });
+      } else {
+        const response = await openai.completions.create({
+          model: "gpt-3.5-turbo-instruct",
+          prompt: `${prompt}:${action}`,
+          max_tokens: 100,
+          n: 1,
+        });
+      }
+
       return res.status(200).json({
         success: true,
         data: response.choices[0].text,
