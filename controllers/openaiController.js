@@ -127,12 +127,11 @@ exports.actions = async (req, res) => {
           max_tokens: 50,
           n: 1,
         });
+        return res.status(200).json({
+          success: true,
+          data: response.choices[0].text,
+        });
       }
-
-      return res.status(200).json({
-        success: true,
-        data: response.choices[0].text,
-      });
     } else if (prompt) {
       const response = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
