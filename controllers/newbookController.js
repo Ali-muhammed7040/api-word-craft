@@ -1,4 +1,6 @@
 const NewBook = require('../Model/newbook');
+const mongoose = require ('mongoose')
+const { ObjectId } = mongoose.Types;
 
 exports.createNewBook = async (req, res) => {
     const { title, author, project } = req.body;
@@ -33,8 +35,41 @@ exports.createNewBook = async (req, res) => {
     }
   }
   
-  exports.addChapter =  async (req, res) => {
-    const { _id, chaptername, chapterbody, subchaptertitle, subchapterbody } = req.body;
+  // exports.addChapter =  async (req, res) => {
+  //   const { _id, chaptername, chapterbody, subchaptertitle, subchapterbody } = req.body;
+  
+  //   try {
+  //     const existingBook = await NewBook.findById(_id);
+  
+  //     if (existingBook) {
+  //       const chapterExists = existingBook.chapters.some(
+  //         (chapter) =>
+  //           chapter.chaptername === chaptername && chapter.chapterbody === chapterbody
+  //       );
+  
+  //       if (!chapterExists) {
+  //         existingBook.chapters.push({
+  //           chaptername,
+  //           chapterbody,
+  //           subchapters: [{ subchaptertitle, subchapterbody }],
+  //         });
+  
+  //         const response = await existingBook.save();
+  
+  //         res.json({ status: "true", response });
+  //       } else {
+  //         res.json({ status: "false", error: "Chapter with the same title and body already exists" });
+  //       }
+  //     } else {
+  //       res.status(404).json({ status: "error", error: "Document not found" });
+  //     }
+  //   } catch (error) {
+  //     console.error("err", error);
+  //     res.status(500).json({ status: "error", error: error.message });
+  //   }
+  // }
+  exports.addChapter = async (req, res) => {
+    const { _id, chaptername, chapterbody } = req.body;
   
     try {
       const existingBook = await NewBook.findById(_id);
@@ -49,7 +84,6 @@ exports.createNewBook = async (req, res) => {
           existingBook.chapters.push({
             chaptername,
             chapterbody,
-            subchapters: [{ subchaptertitle, subchapterbody }],
           });
   
           const response = await existingBook.save();
@@ -66,6 +100,60 @@ exports.createNewBook = async (req, res) => {
       res.status(500).json({ status: "error", error: error.message });
     }
   }
+
+  // Create a route for adding subChapters
+  exports.addSubChapter = async (req, res) => {
+    try {
+      const { chapterId, subchaptertitle, subchapterbody } = req.body;
+  
+      const existingChapter = await NewBook.findOneAndUpdate(
+        { 'chapters._id': chapterId },
+        { $push: { 'chapters.$.subchapters': { subchaptertitle, subchapterbody } } },
+        { new: true }
+      );
+  
+      if (existingChapter) {
+        res.json({ status: "true", response: existingChapter });
+      } else {
+        res.status(404).json({ status: "error", error: "Chapter not found" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: "error", error: error.message });
+    }
+}
+exports.removeSubChapter = async (req, res) => {
+  try {
+    const chapterId = new ObjectId(req.params.chapterId); // Create ObjectId instance
+    const subchapterId = new ObjectId(req.params.subchapterId);
+
+    // Find the document by chapterId
+    const chapter = await NewBook.findOne(chapterId);
+
+    if (!chapter) {
+      return res.status(404).json({ status: 'error', message: 'Chapter not found' });
+    }
+
+    // Remove the subchapter from the chapter's subchapters array
+    chapter.chapters.forEach((chapter) => {
+      const subchapterIndex = chapter.subchapters.findIndex((subchapter) => subchapter._id.equals(subchapterId));
+      if (subchapterIndex !== -1) {
+        chapter.subchapters.splice(subchapterIndex, 1);
+      }
+    });
+
+    // Save the updated document
+    const result = await chapter.save();
+
+    res.json({ status: 'true', message: 'Subchapter deleted successfully', response: result });
+  } catch (error) {
+    res.status(500).json({ status: 'error', error: error.message });
+  }
+}
+
+
+
+// app.delete('/chapters/:chapterId/subchapters/:subchapterId', newbookController.removeSubChapter);
 
 
 exports.getChapters = async(req,res)=>{
