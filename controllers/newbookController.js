@@ -128,25 +128,36 @@ exports.removeSubChapter = async (req, res) => {
     const subchapterId = new ObjectId(req.params.subchapterId);
 
     // Find the document by chapterId
-    const chapter = await NewBook.findOne(chapterId);
+    const book = await NewBook.findById(chapterId);
+
+    if (!book) {
+      return res.status(404).json({ status: 'error', message: 'Book not found' });
+    }
+
+    // Find the chapter containing the subchapter
+    const chapter = book.chapters.find((chapter) =>
+      chapter.subchapters.some((subchapter) => subchapter._id.equals(subchapterId))
+    );
 
     if (!chapter) {
       return res.status(404).json({ status: 'error', message: 'Chapter not found' });
     }
 
     // Remove the subchapter from the chapter's subchapters array
-    chapter.chapters.forEach((chapter) => {
-      const subchapterIndex = chapter.subchapters.findIndex((subchapter) => subchapter._id.equals(subchapterId));
-      if (subchapterIndex !== -1) {
-        chapter.subchapters.splice(subchapterIndex, 1);
-      }
-    });
+    const subchapterIndex = chapter.subchapters.findIndex((subchapter) => subchapter._id.equals(subchapterId));
+
+    if (subchapterIndex === -1) {
+      return res.status(404).json({ status: 'error', message: 'Subchapter not found' });
+    }
+
+    chapter.subchapters.splice(subchapterIndex, 1);
 
     // Save the updated document
-    const result = await chapter.save();
+    const result = await book.save();
 
     res.json({ status: 'true', message: 'Subchapter deleted successfully', response: result });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ status: 'error', error: error.message });
   }
 }
