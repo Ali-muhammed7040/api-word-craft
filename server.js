@@ -22,7 +22,8 @@ app.post('/createnewbook', newbookController.createNewBook);
 app.post('/copyright', newbookController.copyRight);
 app.post('/addchapter', newbookController.addChapter);
 app.post('/addsubchapter', newbookController.addSubChapter);
-app.delete('/chapters/:chapterId/subchapters/:subchapterId', newbookController.removeSubChapter);
+app.delete('/books/:bookId/chapters/:chapterId', newbookController.removeChapter);
+app.delete('/books/:bookId/subchapters/:subchapterId', newbookController.removeSubChapter);
 app.get('/getchapters/:id?', newbookController.getChapters);
 app.get('/books/:id?', newbookController.getBookById);
 

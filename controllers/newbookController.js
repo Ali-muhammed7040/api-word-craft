@@ -122,13 +122,49 @@ exports.createNewBook = async (req, res) => {
       res.status(500).json({ status: "error", error: error.message });
     }
 }
+
+exports.removeChapter = async (req, res) => {
+  try {
+    const bookId = new ObjectId(req.params.bookId); // Create ObjectId instance
+    const chapterId = new ObjectId(req.params.chapterId); // Create ObjectId instance
+
+    // Find the document by chapterId
+    const book = await NewBook.findById(bookId);
+
+    if (!book) {
+      return res.status(404).json({ status: 'error', message: 'Book not found' });
+    }
+
+    // Find the index of the chapter to be removed
+    const chapterIndex = book.chapters.findIndex((chapter) => chapter._id.equals(chapterId));
+
+    if (chapterIndex === -1) {
+      return res.status(404).json({ status: 'error', message: 'Chapter not found' });
+    }
+
+    // Remove the chapter from the chapters array
+    book.chapters.splice(chapterIndex, 1);
+
+    // Save the updated document
+    const result = await book.save();
+
+    res.json({ status: 'true', message: 'Chapter deleted successfully', response: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 'error', error: error.message });
+  }
+}
+
+
+
+
 exports.removeSubChapter = async (req, res) => {
   try {
-    const chapterId = new ObjectId(req.params.chapterId); // Create ObjectId instance
+    const bookId = new ObjectId(req.params.bookId); // Create ObjectId instance
     const subchapterId = new ObjectId(req.params.subchapterId);
 
     // Find the document by chapterId
-    const book = await NewBook.findById(chapterId);
+    const book = await NewBook.findById(bookId);
 
     if (!book) {
       return res.status(404).json({ status: 'error', message: 'Book not found' });
