@@ -19,14 +19,22 @@ app.post('/paraphrasing', openaiController.paraphrasing);
 app.post('/continuewriting', openaiController.continueWriting);
 
 app.post('/createnewbook', newbookController.createNewBook);
+app.post('/updatebook', newbookController.updateBook);
 app.delete('/deletebook/:bookId', newbookController.deleteBook);
-app.post('/copyright', newbookController.copyRight);
-app.post('/addchapter', newbookController.addChapter);
-app.post('/addsubchapter', newbookController.addSubChapter);
-app.delete('/books/:bookId/chapters/:chapterId', newbookController.removeChapter);
-app.delete('/books/:bookId/subchapters/:subchapterId', newbookController.removeSubChapter);
-app.get('/getchapters/:id?', newbookController.getChapters);
 app.get('/books/:id?', newbookController.getBookById);
+
+
+app.post('/copyright', newbookController.copyRight);
+
+
+app.post('/addchapter', newbookController.addChapter);
+app.post('/updatechapter', newbookController.updateChapter);
+app.delete('/books/:bookId/chapters/:chapterId', newbookController.deleteChapter);
+app.get('/getchapters/:id?', newbookController.getChapters);
+
+app.post('/addsubchapter', newbookController.addSubChapter);
+app.post('/updatesubchapter', newbookController.updateSubChapter);
+app.delete('/books/:bookId/subchapters/:subchapterId', newbookController.deleteSubChapter);
 
 // Other routes and controllers
 
