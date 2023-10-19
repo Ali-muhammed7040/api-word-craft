@@ -19,6 +19,7 @@ app.post('/paraphrasing', openaiController.paraphrasing);
 app.post('/continuewriting', openaiController.continueWriting);
 
 app.post('/createnewbook', newbookController.createNewBook);
+app.delete('/deletebook/:bookId', newbookController.deleteBook);
 app.post('/copyright', newbookController.copyRight);
 app.post('/addchapter', newbookController.addChapter);
 app.post('/addsubchapter', newbookController.addSubChapter);

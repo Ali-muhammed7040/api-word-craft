@@ -15,6 +15,20 @@ exports.createNewBook = async (req, res) => {
     }
   }
 
+exports.deleteBook = async (req, res) => {
+  const bookId =  req.params.bookId
+  console.log(bookId);
+  
+    try {
+      const response = await NewBook.deleteOne( { "_id" : bookId});
+      // console.log(response);
+      res.json({ status: "true", response });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: "error", error: error.message });
+    }
+  }
+
   exports.copyRight = async (req, res) => {
     const { _id, year, penName } = req.body;
     try {
