@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const openaiController = require("./controllers/openaiController");
 const newbookController = require("./controllers/newbookController");
 
-// mongoose.connect("mongodb://localhost:27017/AI-Editor");
+mongoose.connect("mongodb://localhost:27017/AI-Editor");
 // const connectDb = async () => {
 //   try {
 //     const conn = await mongoose.connect(process.env.MONGO_URI);
