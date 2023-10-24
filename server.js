@@ -6,24 +6,24 @@ const openaiController = require("./controllers/openaiController");
 const newbookController = require("./controllers/newbookController");
 
 // mongoose.connect("mongodb://localhost:27017/AI-Editor");
-const connectDb = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (err) {
-    console.log(err, "mongo Err");
-    process.exit(1);
-  }
-};
-const HTTP_PORT = process.env.PORT || 3001;
+// const connectDb = async () => {
+//   try {
+//     const conn = await mongoose.connect(process.env.MONGO_URI);
+//     console.log(`MongoDB Connected: ${conn.connection.host}`);
+//   } catch (err) {
+//     console.log(err, "mongo Err");
+//     process.exit(1);
+//   }
+// };
+// const HTTP_PORT = process.env.PORT || 3001;
 
-connectDb()
-  .then(() => {
-    app.listen(HTTP_PORT, () => {
-      console.log(`Sever listening on port http://localhost:${HTTP_PORT}`);
-    });
-  })
-  .catch((err) => console.log(err));
+// connectDb()
+//   .then(() => {
+//     app.listen(HTTP_PORT, () => {
+//       console.log(`Sever listening on port http://localhost:${HTTP_PORT}`);
+//     });
+//   })
+//   .catch((err) => console.log(err));
 
 const app = express();
 
@@ -60,7 +60,7 @@ app.delete(
 
 // Other routes and controllers
 
-// const HTTP_PORT = process.env.PORT || 3001 || 3003;
-// app.listen(HTTP_PORT, () => {
-//   console.log(`Server listening on port http://localhost:${HTTP_PORT}`);
-// });
+const HTTP_PORT = process.env.PORT || 3001 || 3003;
+app.listen(HTTP_PORT, () => {
+  console.log(`Server listening on port http://localhost:${HTTP_PORT}`);
+});
