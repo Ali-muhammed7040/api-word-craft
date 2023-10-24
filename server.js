@@ -58,14 +58,6 @@ app.delete(
   newbookController.deleteSubChapter
 );
 
-app.post("/createnewbook", newbookController.createNewBook);
-app.post("/copyright", newbookController.copyRight);
-app.post("/addchapter", newbookController.addChapter);
-app.get("/getchapters/:id?", newbookController.getChapters);
-app.get("/books/:id?", newbookController.getBookById);
-app.post("/poetry", openaiController.poetry);
-app.post("/quotation", openaiController.quotation);
-app.post("/action", openaiController.actions);
 // Other routes and controllers
 
 // const HTTP_PORT = process.env.PORT || 3001 || 3003;
