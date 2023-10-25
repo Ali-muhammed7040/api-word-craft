@@ -50,7 +50,7 @@ app.delete(
   newbookController.deleteChapter
 );
 app.get("/getchapters/:id?", newbookController.getChapters);
-
+ 
 app.post("/addsubchapter", newbookController.addSubChapter);
 app.post("/updatesubchapter", newbookController.updateSubChapter);
 app.delete(
