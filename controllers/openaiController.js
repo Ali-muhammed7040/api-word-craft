@@ -11,7 +11,7 @@ exports.paraphrasing = async (req, res) => {
       prompt: `Give me best suggested paragraph and paraphrase it:"${prompt}"`,
       max_tokens: 1000,
       temperature: 1.5,
-      n: 1,
+      n: 3,
     });
     return res.status(200).json({
       success: true,
@@ -54,51 +54,6 @@ exports.continueWriting = async (req, res) => {
   }
 };
 
-exports.quotation = async (req, res) => {
-  try {
-    const { prompt } = req.body;
-    console.log(prompt, "working with contine");
-    const response = await openai.completions.create({
-      model: "gpt-3.5-turbo-instruct",
-      prompt: `${prompt} give a relavtive quote`,
-      max_tokens: 100,
-    });
-    return res.status(200).json({
-      success: true,
-      data: response.choices[0].text,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      error: error.response
-        ? error.response.data
-        : "there was an issue on server",
-    });
-  }
-};
-
-exports.poetry = async (req, res) => {
-  try {
-    const { prompt } = req.body;
-    console.log(prompt, "working with contine");
-    const response = await openai.completions.create({
-      model: "gpt-3.5-turbo-instruct",
-      prompt: `${prompt} give 20 lines of poem`,
-      max_tokens: 10,
-    });
-    return res.status(200).json({
-      success: true,
-      data: response.choices[0].text,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      error: error.response
-        ? error.response.data
-        : "there was an issue on server",
-    });
-  }
-};
 exports.actions = async (req, res) => {
   try {
     const { prompt, action } = req.body;

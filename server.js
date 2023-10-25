@@ -57,6 +57,7 @@ app.delete(
   "/books/:bookId/subchapters/:subchapterId",
   newbookController.deleteSubChapter
 );
+app.post("/action", openaiController.actions);
 
 // Other routes and controllers
 
