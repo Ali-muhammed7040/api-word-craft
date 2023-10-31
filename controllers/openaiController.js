@@ -110,11 +110,11 @@ exports.actions = async (req, res) => {
 };
 exports.customprompt = async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { prompt, action } = req.body;
     console.log(prompt, "working with contine");
     const response = await openai.completions.create({
       model: "gpt-3.5-turbo-instruct",
-      prompt: `${prompt}`,
+      prompt: `${action}:${prompt}`,
       max_tokens: 2000,
     });
 
