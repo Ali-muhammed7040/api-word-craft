@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 app.post("/paraphrasing", openaiController.paraphrasing);
 app.post("/continuewriting", openaiController.continueWriting);
-
+app.post("/customprompt", openaiController.customprompt);
 app.post("/createnewbook", newbookController.createNewBook);
 app.post("/updatebook", newbookController.updateBook);
 app.delete("/deletebook/:bookId", newbookController.deleteBook);
